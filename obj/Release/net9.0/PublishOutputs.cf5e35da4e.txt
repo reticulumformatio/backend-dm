@@ -1,0 +1,7 @@
+/home/rfss/repos/web-dm/backend/publish/backend
+/home/rfss/repos/web-dm/backend/publish/appsettings.Development.json
+/home/rfss/repos/web-dm/backend/publish/appsettings.json
+/home/rfss/repos/web-dm/backend/publish/backend.dll
+/home/rfss/repos/web-dm/backend/publish/backend.deps.json
+/home/rfss/repos/web-dm/backend/publish/backend.runtimeconfig.json
+/home/rfss/repos/web-dm/backend/publish/backend.pdb
