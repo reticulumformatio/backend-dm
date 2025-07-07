@@ -1,3 +1,9 @@
+using System.Text.Json;
+using System.Text.Json.Serialization; // Для атрибута [JsonPropertyName]
+using Microsoft.Extensions.Configuration; // Добавить для IConfiguration
+using Microsoft.Extensions.Logging;       // Добавить для ILogger
+using System.Net.Http.Json; 
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -14,7 +20,6 @@ builder.Services.AddCors(options =>
                   .AllowAnyMethod();
             });
 });
-
 
 builder.Services.AddHttpClient();
 
@@ -33,9 +38,9 @@ app.MapPost("/api/send-to-telegram", async (
     // Получаем токен и Chat ID из конфигурации
     var botToken = configuration["TelegramSettings:BotToken"];
     var chatId = configuration["TelegramSettings:ChatId"];
+    var telegramApiUrl = $"https://api.telegram.org/bot{botToken}/sendMessage";
 
     var httpClient = httpClientFactory.CreateClient();
-    var telegramApiUrl = $"https://api.telegram.org/bot{botToken}/sendMessage";
 
     // Формируем текст сообщения для Telegram
     var telegramText = $"Новое сообщение от DM Unlimited:\n" +
@@ -73,11 +78,6 @@ app.MapPost("/api/send-to-telegram", async (
         return Results.StatusCode(StatusCodes.Status500InternalServerError);
     }
 });
-
-
-
-
-
 
 app.Run();
 
