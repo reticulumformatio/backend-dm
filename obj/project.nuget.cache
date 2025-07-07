@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "BFobmWAqD1Y=",
+  "success": true,
+  "projectFilePath": "/home/rfss/repos/web-dm/backend/backend.csproj",
+  "expectedPackageFiles": [
+    "/home/rfss/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.5/microsoft.aspnetcore.app.ref.9.0.5.nupkg.sha512"
+  ],
+  "logs": []
+}
