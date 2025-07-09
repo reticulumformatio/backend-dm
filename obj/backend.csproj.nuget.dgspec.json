@@ -43,6 +43,12 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "Mscc.GenerativeAI": {
+              "target": "Package",
+              "version": "[2.6.4, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
