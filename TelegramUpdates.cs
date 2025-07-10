@@ -8,13 +8,10 @@ class TelegramUpdates{
     private readonly string _token;
     private readonly string _telegramApiUrl;
 
-    private readonly VisitHandler _visitHandler;
-
     public TelegramUpdates(ILogger<Program> logger, IHttpClientFactory httpClientFactory, IConfiguration configuration, VisitHandler visitHandler){
         _logger = logger;
         _httpClientFactory = httpClientFactory;
         _configuration = configuration;
-        _visitHandler = visitHandler;
         _token = _configuration["TelegramSettings:BotToken"] ?? throw new InvalidOperationException("Telegram Bot Token не настроен в конфигурации.");
         _telegramApiUrl = $"https://api.telegram.org/bot{_token}/sendMessage";
     }
@@ -28,16 +25,15 @@ class TelegramUpdates{
             return Results.BadRequest("Invalid Telegram update.");
         }
 
-        _logger.LogInformation("Получено обновление вебхука Telegram. ID Обновления: {UpdateId}, Тип: {UpdateType}", update.UpdateId, update.Type);
+        _logger.LogInformation($"Получено обновление вебхука Telegram. ID Обновления: {update.UpdateId}, Тип: {update.Type}");
 
         if (update.Message != null && update.Message.Chat != null)
         {
             Message message = update.Message;
             long chatId = update.Message.Chat.Id;
 
-            _logger.LogInformation("Сообщение из чата {ChatId}: {UserMessage}", chatId, message);
+            _logger.LogInformation($"Сообщение из чата {chatId}: {message}");
             _logger.LogInformation("Сообщение отправлено пользователем: {UserName} (ID: {UserId})", update.Message.From?.Username ?? update.Message.From?.FirstName, update.Message.From?.Id);
-
 
             await OnMessageUpdate(chatId, message);
         }
@@ -95,16 +91,10 @@ class TelegramUpdates{
         await SendMessage(chatId, messageText);
     }
 
-    private uint OnOnlineCommand(){
-        return _visitHandler.GetOnline();
-    }
-
     private async Task OnCommandMessage(long chatId, string command){
         switch(command)
         {
             case "/online":
-                string message = $"Онлайн на сайте DM UNLIMITED: {OnOnlineCommand()}";
-                await SendMessage(chatId, message);
                 break;   
         }
     }

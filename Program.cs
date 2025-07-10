@@ -18,7 +18,6 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<TelegramUpdates>();
-builder.Services.AddSingleton<VisitHandler>();
 
 var app = builder.Build();
 
@@ -87,7 +86,6 @@ app.MapPost("/api/telegram-updates", async (Update update, TelegramUpdates teleg
 app.MapPost("/api/visit", (HttpContext context, VisitHandler visitHandler) =>
 {
     // Передаем весь HttpContext в обработчик, чтобы он мог извлечь IP
-    visitHandler.OnVisit(context);
 });
 
 app.Run();
