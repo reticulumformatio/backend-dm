@@ -84,7 +84,6 @@ app.MapPost("/api/telegram-updates", async (Update update, TelegramUpdates handl
 });
 
 
-
 app.Run();
 
 

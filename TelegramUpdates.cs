@@ -1,9 +1,9 @@
 using TelegramJsons;
 
 class TelegramUpdates{
-    private ILogger<Program> _logger;
-    private IHttpClientFactory _httpClientFactory;
-    private IConfiguration _configuration;
+    private readonly ILogger<Program> _logger;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IConfiguration _configuration;
 
     private readonly string _token;
     private readonly string _telegramApiUrl;
@@ -27,16 +27,15 @@ class TelegramUpdates{
 
         _logger.LogInformation("Получено обновление вебхука Telegram. ID Обновления: {UpdateId}, Тип: {UpdateType}", update.UpdateId, update.Type);
 
-        // Пример обработки текстового сообщения
-        if (update.Message != null)
+        if (update.Message != null && update.Message.Chat != null)
         {
-            long chatId = update.Message.Chat!.Id;
             Message message = update.Message;
+            long chatId = update.Message.Chat.Id;
 
             _logger.LogInformation("Сообщение из чата {ChatId}: {UserMessage}", chatId, message);
             _logger.LogInformation("Сообщение отправлено пользователем: {UserName} (ID: {UserId})", update.Message.From?.Username ?? update.Message.From?.FirstName, update.Message.From?.Id);
 
-            // Вызываем приватный метод для обработки AI и отправки ответа обратно в Telegram
+
             await OnMessageUpdate(chatId, message);
         }
         else if (update.CallbackQuery != null)
@@ -54,13 +53,13 @@ class TelegramUpdates{
         return Results.Ok();
     }
 
-    private async Task SendMessage(long chatId, string MessageText)
+    private async Task SendMessage(long chatId, string messageText)
     {
         // Подготовка данных для отправки в Telegram API
         var telegramPayload = new
         {
             chat_id = chatId,
-            text = MessageText,
+            text = messageText,
             parse_mode = "HTML" // Можно использовать MarkdownV2 или HTML для форматирования
         };
 
@@ -86,7 +85,19 @@ class TelegramUpdates{
 
     private async Task OnMessageUpdate(long chatId, Message message){
         if(message.Text == null) return;
+
         string messageText = message.Text;
+
+        if(messageText.StartsWith('/')) await OnCommandMessage(chatId, messageText);
         await SendMessage(chatId, messageText);
+    }
+
+    private async Task OnCommandMessage(long chatId, string command){
+        switch(command)
+        {
+            case "/online":
+                
+                break;   
+        }
     }
 }
