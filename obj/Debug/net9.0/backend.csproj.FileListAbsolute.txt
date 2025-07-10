@@ -1,11 +1,5 @@
-/home/rfss/repos/web-dm/backend/bin/Debug/net9.0/publish/web.config
 /home/rfss/repos/web-dm/backend/bin/Debug/net9.0/appsettings.Development.json
 /home/rfss/repos/web-dm/backend/bin/Debug/net9.0/appsettings.json
-/home/rfss/repos/web-dm/backend/bin/Debug/net9.0/publish/appsettings.Development.json
-/home/rfss/repos/web-dm/backend/bin/Debug/net9.0/publish/appsettings.json
-/home/rfss/repos/web-dm/backend/bin/Debug/net9.0/publish/backend.deps.json
-/home/rfss/repos/web-dm/backend/bin/Debug/net9.0/publish/backend.runtimeconfig.json
-/home/rfss/repos/web-dm/backend/bin/Debug/net9.0/publish/backend.staticwebassets.endpoints.json
 /home/rfss/repos/web-dm/backend/bin/Debug/net9.0/backend.staticwebassets.endpoints.json
 /home/rfss/repos/web-dm/backend/bin/Debug/net9.0/backend
 /home/rfss/repos/web-dm/backend/bin/Debug/net9.0/backend.deps.json

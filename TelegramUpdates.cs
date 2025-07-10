@@ -8,10 +8,13 @@ class TelegramUpdates{
     private readonly string _token;
     private readonly string _telegramApiUrl;
 
-    public TelegramUpdates(ILogger<Program> logger, IHttpClientFactory httpClientFactory, IConfiguration configuration){
+    private readonly VisitHandler _visitHandler;
+
+    public TelegramUpdates(ILogger<Program> logger, IHttpClientFactory httpClientFactory, IConfiguration configuration, VisitHandler visitHandler){
         _logger = logger;
         _httpClientFactory = httpClientFactory;
         _configuration = configuration;
+        _visitHandler = visitHandler;
         _token = _configuration["TelegramSettings:BotToken"] ?? throw new InvalidOperationException("Telegram Bot Token не настроен в конфигурации.");
         _telegramApiUrl = $"https://api.telegram.org/bot{_token}/sendMessage";
     }
@@ -92,11 +95,16 @@ class TelegramUpdates{
         await SendMessage(chatId, messageText);
     }
 
+    private uint OnOnlineCommand(){
+        return _visitHandler.GetOnline();
+    }
+
     private async Task OnCommandMessage(long chatId, string command){
         switch(command)
         {
             case "/online":
-                
+                string message = $"Онлайн на сайте DM UNLIMITED: {OnOnlineCommand()}";
+                await SendMessage(chatId, message);
                 break;   
         }
     }

@@ -18,6 +18,7 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<TelegramUpdates>();
+builder.Services.AddSingleton<VisitHandler>();
 
 var app = builder.Build();
 
@@ -78,14 +79,15 @@ app.MapPost("/api/send-to-telegram", async (
 });
 
 // --- ЭНДПОИНТ ДЛЯ TELEGRAM WEBHOOK ---
-app.MapPost("/api/telegram-updates", async (Update update, TelegramUpdates handler) =>
+app.MapPost("/api/telegram-updates", async (Update update, TelegramUpdates telegramHandler, VisitHandler visitHandler) =>
 {
-    return await handler.OnTelegramUpdateAsync(update);
+    return await telegramHandler.OnTelegramUpdateAsync(update);
 });
 
+app.MapPost("/api/visit", (HttpContext context, VisitHandler visitHandler) =>
+{
+    // Передаем весь HttpContext в обработчик, чтобы он мог извлечь IP
+    visitHandler.OnVisit(context);
+});
 
 app.Run();
-
-
-
-
